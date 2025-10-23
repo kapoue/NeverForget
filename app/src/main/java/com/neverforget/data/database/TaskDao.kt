@@ -1,6 +1,7 @@
 package com.neverforget.data.database
 
 import androidx.room.*
+import com.neverforget.data.model.TaskWithHistory
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -11,6 +12,14 @@ interface TaskDao {
     
     @Query("SELECT * FROM tasks ORDER BY nextDueDate ASC")
     fun getAllTasks(): Flow<List<TaskEntity>>
+    
+    @Transaction
+    @Query("SELECT * FROM tasks ORDER BY nextDueDate ASC")
+    fun getAllTasksWithHistory(): Flow<List<TaskWithHistory>>
+    
+    @Transaction
+    @Query("SELECT * FROM tasks WHERE id = :taskId")
+    suspend fun getTaskWithHistoryById(taskId: String): TaskWithHistory?
     
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     suspend fun getTaskById(taskId: String): TaskEntity?
