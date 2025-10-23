@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">NeverForget</string>
+    
+    <!-- Navigation -->
+    <string name="nav_tasks">Tâches</string>
+    <string name="nav_settings">Paramètres</string>
+    <string name="nav_backup">Sauvegarde</string>
+    <string name="nav_about">À propos</string>
+    
+    <!-- Task List -->
+    <string name="task_list_title">NeverForget</string>
+    <string name="task_add">Ajouter une tâche</string>
+    <string name="task_complete">Valider</string>
+    <string name="task_status_ok">OK encore %d jours</string>
+    <string name="task_status_due_today">À faire aujourd\'hui</string>
+    <string name="task_status_overdue">En retard de %d jours</string>
+    
+    <!-- Task Detail -->
+    <string name="task_detail_title">Détail de la tâche</string>
+    <string name="task_validate">VALIDER LA TÂCHE</string>
+    <string name="task_edit">Modifier</string>
+    <string name="task_delete">Supprimer</string>
+    <string name="task_history">Historique</string>
+    <string name="task_recurrence">Récurrence : %s</string>
+    <string name="task_next_due">Prochaine échéance : %s</string>
+    
+    <!-- Task Form -->
+    <string name="task_form_new_title">Nouvelle tâche</string>
+    <string name="task_form_edit_title">Modifier la tâche</string>
+    <string name="task_form_name">Nom de la tâche *</string>
+    <string name="task_form_category">Catégorie</string>
+    <string name="task_form_recurrence">Récurrence</string>
+    <string name="task_form_first_due">Première échéance (calculée)</string>
+    <string name="task_form_save">ENREGISTRER</string>
+    <string name="task_form_name_required">Le nom de la tâche est obligatoire</string>
+    
+    <!-- Categories -->
+    <string name="category_home">Maison</string>
+    <string name="category_car">Voiture</string>
+    <string name="category_scooter">Scooter</string>
+    <string name="category_other">Autre</string>
+    
+    <!-- Recurrence units -->
+    <string name="recurrence_days">jours</string>
+    <string name="recurrence_weeks">semaines</string>
+    <string name="recurrence_months">mois</string>
+    <string name="recurrence_years">années</string>
+    
+    <!-- Settings -->
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notification_time">Heure des rappels</string>
+    <string name="settings_categories">Catégories</string>
+    <string name="settings_category_add">+ Ajouter une catégorie</string>
+    <string name="settings_category_delete_warning">Si une catégorie supprimée contient des tâches, celles-ci sont automatiquement basculées vers \"Maison\".</string>
+    
+    <!-- Backup -->
+    <string name="backup_title">Sauvegarde</string>
+    <string name="backup_export">Export</string>
+    <string name="backup_export_json">Exporter en JSON</string>
+    <string name="backup_import">Import</string>
+    <string name="backup_import_json">Importer depuis JSON</string>
+    <string name="backup_export_success">Export réussi : %s</string>
+    <string name="backup_import_success">Import réussi : %d tâches importées</string>
+    <string name="backup_error">Erreur lors de la sauvegarde</string>
+    
+    <!-- About -->
+    <string name="about_title">À propos</string>
+    <string name="about_version">Version : %s</string>
+    <string name="about_language">Langage : Kotlin</string>
+    <string name="about_ui">Interface : Jetpack Compose</string>
+    <string name="about_database">Base de données : Room</string>
+    <string name="about_developed">Développé avec ❤️</string>
+    <string name="about_github">GitHub</string>
+    <string name="about_github_url">github.com/kapoue/neverforget</string>
+    
+    <!-- Notifications -->
+    <string name="notification_channel_name">Rappels de tâches</string>
+    <string name="notification_channel_description">Notifications pour les tâches à effectuer</string>
+    <string name="notification_title">NeverForget</string>
+    <string name="notification_message">Il est temps de : %s</string>
+    <string name="notification_action_complete">Valider</string>
+    <string name="notification_action_snooze">Reporter</string>
+    <string name="notification_action_view">Voir</string>
+    
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+    <string name="delete">Supprimer</string>
+    <string name="confirm">Confirmer</string>
+    <string name="save">Enregistrer</string>
+    <string name="edit">Modifier</string>
+    <string name="add">Ajouter</string>
+    
+    <!-- Dialogs -->
+    <string name="dialog_delete_task_title">Supprimer la tâche</string>
+    <string name="dialog_delete_task_message">Êtes-vous sûr de vouloir supprimer cette tâche ? Cette action supprimera également tout l\'historique associé.</string>
+    <string name="dialog_delete_category_title">Supprimer la catégorie</string>
+    <string name="dialog_delete_category_message">Êtes-vous sûr de vouloir supprimer cette catégorie ? Les tâches associées seront transférées vers \"Maison\".</string>
+    
+    <!-- Default tasks -->
+    <string name="default_task_smoke_detectors">Détecteurs de fumée</string>
+    <string name="default_task_bathroom_ventilation">Ventilation salle de bain</string>
+    <string name="default_task_vacuum_filters">Filtres aspirateur</string>
+    <string name="default_task_car_tire_pressure">Pression pneus voiture</string>
+    <string name="default_task_windshield_washer">Niveau lave-glace</string>
+    <string name="default_task_scooter_tire_pressure">Pression pneus scooter</string>
+</resources>
