@@ -1,6 +1,7 @@
 package com.neverforget.data.repository
 
 import com.neverforget.data.database.CategoryDao
+import com.neverforget.data.database.TaskDao
 import com.neverforget.data.model.Category
 import com.neverforget.data.model.toCategory
 import com.neverforget.data.model.toEntity
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 @Singleton
 class CategoryRepository @Inject constructor(
     private val categoryDao: CategoryDao,
-    private val taskRepository: TaskRepository
+    private val taskDao: TaskDao
 ) {
     
     /**
@@ -61,7 +62,7 @@ class CategoryRepository @Inject constructor(
         val category = categoryDao.getCategoryByName(categoryName)
         if (category?.isDeletable == true) {
             // Migrer les tâches vers "Maison"
-            taskRepository.updateTasksCategory(categoryName, "Maison")
+            taskDao.updateTasksCategory(categoryName, "Maison")
             
             // Supprimer la catégorie
             categoryDao.deleteCategoryByName(categoryName)
