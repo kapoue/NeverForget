@@ -43,3 +43,40 @@
 -keepclasseswithmembers class com.neverforget.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+# Keep WorkManager classes
+-keep class androidx.work.** { *; }
+-keep class * extends androidx.work.Worker
+-keep class * extends androidx.work.InputMerger
+-keep class androidx.work.impl.** { *; }
+
+# Keep notification classes
+-keep class com.neverforget.workers.** { *; }
+-keep class com.neverforget.receivers.** { *; }
+-keep class com.neverforget.notifications.** { *; }
+
+# Keep Compose classes
+-keep class androidx.compose.** { *; }
+-dontwarn androidx.compose.**
+
+# Keep ViewModel classes
+-keep class * extends androidx.lifecycle.ViewModel { *; }
+-keep class com.neverforget.ui.viewmodel.** { *; }
+
+# Keep data model classes
+-keep class com.neverforget.data.model.** { *; }
+
+# Keep enum classes
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Keep Parcelable classes
+-keep class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+
+# Keep kotlinx-datetime
+-keep class kotlinx.datetime.** { *; }
+-dontwarn kotlinx.datetime.**

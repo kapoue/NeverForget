@@ -3,6 +3,7 @@ package com.neverforget.data.repository
 import com.neverforget.data.database.SettingsDao
 import com.neverforget.data.database.SettingsEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -56,5 +57,28 @@ class SettingsRepository @Inject constructor(
      */
     suspend fun deleteSetting(key: String) {
         settingsDao.deleteSettingByKey(key)
+    }
+    
+    /**
+     * Récupère le délai de rappel en jours (valeur directe)
+     */
+    suspend fun getReminderDelayDays(): Int {
+        val value = getSettingValue("reminder_delay_days")
+        return value?.toIntOrNull() ?: 3 // 3 jours par défaut
+    }
+    
+    /**
+     * Met à jour le délai de rappel en jours
+     */
+    suspend fun setReminderDelayDays(days: Int) {
+        setSettingValue("reminder_delay_days", days.toString())
+    }
+    
+    /**
+     * Récupère le délai de rappel en jours (Flow)
+     */
+    fun getReminderDelayDaysFlow(): Flow<Int> {
+        return settingsDao.getSettingValueFlow("reminder_delay_days")
+            .map { it?.toIntOrNull() ?: 3 }
     }
 }

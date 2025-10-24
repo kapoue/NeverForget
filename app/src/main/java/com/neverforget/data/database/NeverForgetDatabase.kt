@@ -10,9 +10,7 @@ import com.neverforget.data.model.Category
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.todayIn
+import kotlinx.datetime.*
 
 /**
  * Base de données Room principale de l'application
@@ -24,7 +22,7 @@ import kotlinx.datetime.todayIn
         CategoryEntity::class,
         SettingsEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -50,6 +48,7 @@ abstract class NeverForgetDatabase : RoomDatabase() {
                     "neverforget_database"
                 )
                 .addCallback(DatabaseCallback(scope))
+                .fallbackToDestructiveMigration()
                 .build()
                 INSTANCE = instance
                 instance
@@ -104,42 +103,42 @@ abstract class NeverForgetDatabase : RoomDatabase() {
                     name = "Détecteurs de fumée",
                     category = "Maison",
                     recurrenceDays = 180, // 6 mois
-                    nextDueDate = today.plusDays(180),
+                    nextDueDate = today.plus(180, DateTimeUnit.DAY),
                     createdAt = today
                 ),
                 TaskEntity(
                     name = "Ventilation salle de bain",
                     category = "Maison",
                     recurrenceDays = 90, // 3 mois
-                    nextDueDate = today.plusDays(90),
+                    nextDueDate = today.plus(90, DateTimeUnit.DAY),
                     createdAt = today
                 ),
                 TaskEntity(
                     name = "Filtres aspirateur",
                     category = "Maison",
                     recurrenceDays = 60, // 2 mois
-                    nextDueDate = today.plusDays(60),
+                    nextDueDate = today.plus(60, DateTimeUnit.DAY),
                     createdAt = today
                 ),
                 TaskEntity(
                     name = "Pression pneus voiture",
                     category = "Voiture",
                     recurrenceDays = 30, // 1 mois
-                    nextDueDate = today.plusDays(30),
+                    nextDueDate = today.plus(30, DateTimeUnit.DAY),
                     createdAt = today
                 ),
                 TaskEntity(
                     name = "Niveau lave-glace",
                     category = "Voiture",
                     recurrenceDays = 180, // 6 mois
-                    nextDueDate = today.plusDays(180),
+                    nextDueDate = today.plus(180, DateTimeUnit.DAY),
                     createdAt = today
                 ),
                 TaskEntity(
                     name = "Pression pneus scooter",
                     category = "Scooter",
                     recurrenceDays = 30, // 1 mois
-                    nextDueDate = today.plusDays(30),
+                    nextDueDate = today.plus(30, DateTimeUnit.DAY),
                     createdAt = today
                 )
             )

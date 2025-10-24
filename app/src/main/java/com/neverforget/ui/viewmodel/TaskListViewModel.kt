@@ -3,23 +3,23 @@ package com.neverforget.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neverforget.data.model.Task
-import com.neverforget.data.model.TaskStatus
-import com.neverforget.data.repository.TaskRepository
+import com.neverforget.domain.usecase.CompleteTaskUseCase
+import com.neverforget.domain.usecase.GetTasksWithStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
 import javax.inject.Inject
 
 /**
- * ViewModel pour l'écran de liste des tâches
+ * ViewModel pour l'écran de liste des tâches avec logique métier intégrée
  */
 @HiltViewModel
 class TaskListViewModel @Inject constructor(
-    private val taskRepository: TaskRepository
+    private val getTasksWithStatusUseCase: GetTasksWithStatusUseCase,
+    private val completeTaskUseCase: CompleteTaskUseCase
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(TaskListUiState())
@@ -30,72 +30,52 @@ class TaskListViewModel @Inject constructor(
     }
     
     /**
-     * Charge toutes les tâches et les trie par urgence
+     * Charge toutes les tâches avec statut calculé et tri par urgence
      */
     private fun loadTasks() {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true)
+            _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             
-            taskRepository.getAllTasks()
+            getTasksWithStatusUseCase.execute()
                 .catch { exception ->
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
-                        errorMessage = exception.message
+                        error = "Erreur lors du chargement des tâches: ${exception.message}"
                     )
                 }
                 .collect { tasks ->
-                    val sortedTasks = sortTasksByUrgency(tasks)
                     _uiState.value = _uiState.value.copy(
-                        tasks = sortedTasks,
+                        tasks = tasks,
                         isLoading = false,
-                        errorMessage = null
+                        error = null
                     )
                 }
         }
     }
     
     /**
-     * Trie les tâches par urgence : en retard > aujourd'hui > futur
-     */
-    private fun sortTasksByUrgency(tasks: List<Task>): List<Task> {
-        return tasks.sortedWith(compareBy<Task> { task ->
-            when (task.status) {
-                TaskStatus.OVERDUE -> 0
-                TaskStatus.DUE_TODAY -> 1
-                TaskStatus.OK -> 2
-            }
-        }.thenBy { it.nextDueDate })
-    }
-    
-    /**
-     * Valide une tâche (marque comme terminée)
+     * Valide une tâche avec calcul automatique de la prochaine échéance
      */
     fun completeTask(taskId: String) {
         viewModelScope.launch {
-            try {
-                taskRepository.completeTask(taskId)
-                // Les tâches se rechargeront automatiquement via le Flow
-            } catch (exception: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = "Erreur lors de la validation : ${exception.message}"
-                )
-            }
-        }
-    }
-    
-    /**
-     * Supprime une tâche
-     */
-    fun deleteTask(taskId: String) {
-        viewModelScope.launch {
-            try {
-                taskRepository.deleteTaskById(taskId)
-                // Les tâches se rechargeront automatiquement via le Flow
-            } catch (exception: Exception) {
-                _uiState.value = _uiState.value.copy(
-                    errorMessage = "Erreur lors de la suppression : ${exception.message}"
-                )
-            }
+            _uiState.value = _uiState.value.copy(isCompletingTask = true)
+            
+            completeTaskUseCase.execute(taskId)
+                .onSuccess {
+                    _uiState.value = _uiState.value.copy(
+                        isCompletingTask = false,
+                        completionMessage = "Tâche validée avec succès !"
+                    )
+                    // Effacer le message après 3 secondes
+                    kotlinx.coroutines.delay(3000)
+                    _uiState.value = _uiState.value.copy(completionMessage = null)
+                }
+                .onFailure { exception ->
+                    _uiState.value = _uiState.value.copy(
+                        isCompletingTask = false,
+                        error = "Erreur lors de la validation: ${exception.message}"
+                    )
+                }
         }
     }
     
@@ -103,7 +83,14 @@ class TaskListViewModel @Inject constructor(
      * Efface le message d'erreur
      */
     fun clearError() {
-        _uiState.value = _uiState.value.copy(errorMessage = null)
+        _uiState.value = _uiState.value.copy(error = null)
+    }
+    
+    /**
+     * Efface le message de confirmation
+     */
+    fun clearCompletionMessage() {
+        _uiState.value = _uiState.value.copy(completionMessage = null)
     }
     
     /**
@@ -120,5 +107,7 @@ class TaskListViewModel @Inject constructor(
 data class TaskListUiState(
     val tasks: List<Task> = emptyList(),
     val isLoading: Boolean = false,
-    val errorMessage: String? = null
+    val error: String? = null,
+    val isCompletingTask: Boolean = false,
+    val completionMessage: String? = null
 )

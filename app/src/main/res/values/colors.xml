@@ -6,6 +6,7 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="blue_500">#FF2196F3</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
@@ -17,6 +18,20 @@
     <!-- Primary Colors -->
     <color name="primary_blue">#FF2196F3</color>          <!-- Bleu -->
     <color name="secondary_gray">#FF757575</color>        <!-- Gris -->
+    
+    <!-- Material Design 3 Theme Colors -->
+    <color name="colorPrimary">#FF2196F3</color>
+    <color name="colorOnPrimary">#FFFFFFFF</color>
+    <color name="colorSecondary">#FF757575</color>
+    <color name="colorOnSecondary">#FFFFFFFF</color>
+    <color name="colorTertiary">#FF03DAC5</color>
+    <color name="colorOnTertiary">#FF000000</color>
+    <color name="colorError">#FFF44336</color>
+    <color name="colorOnError">#FFFFFFFF</color>
+    <color name="colorSurface">#FFFFFFFF</color>
+    <color name="colorOnSurface">#FF000000</color>
+    <color name="colorBackground">#FFFFFFFF</color>
+    <color name="colorOnBackground">#FF000000</color>
     
     <!-- Background Colors -->
     <color name="background_light">#FFFFFFFF</color>

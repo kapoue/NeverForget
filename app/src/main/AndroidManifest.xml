@@ -37,6 +37,34 @@
             android:foregroundServiceType="shortService"
             tools:node="merge" />
 
+        <!-- BroadcastReceiver pour les actions de notification -->
+        <receiver
+            android:name=".receivers.TaskCompleteReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.neverforget.ACTION_COMPLETE_TASK" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".receivers.TaskSnoozeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.neverforget.ACTION_SNOOZE_TASK" />
+            </intent-filter>
+        </receiver>
+
+        <!-- FileProvider pour le partage de fichiers -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

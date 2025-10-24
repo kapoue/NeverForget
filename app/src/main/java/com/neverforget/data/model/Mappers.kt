@@ -25,6 +25,14 @@ fun TaskEntity.toTask(history: List<TaskHistoryEntity> = emptyList()): Task {
         else -> TaskStatus.OK
     }
     
+    // Pour les tâches en retard, on veut le nombre de jours de retard (positif)
+    // Pour les tâches OK, on veut le nombre de jours restants (positif)
+    val displayDays = when (status) {
+        TaskStatus.OVERDUE -> abs(daysUntilDue) // Jours de retard
+        TaskStatus.DUE_TODAY -> 0
+        TaskStatus.OK -> daysUntilDue // Jours restants
+    }
+    
     return Task(
         id = id,
         name = name,
@@ -34,7 +42,7 @@ fun TaskEntity.toTask(history: List<TaskHistoryEntity> = emptyList()): Task {
         createdAt = createdAt,
         reminderDelayDays = reminderDelayDays,
         status = status,
-        daysUntilDue = abs(daysUntilDue),
+        daysUntilDue = displayDays,
         history = history.map { it.completedDate }.sortedDescending()
     )
 }

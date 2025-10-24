@@ -18,5 +18,13 @@ data class Category(
             Category("Scooter", "🛵", true),
             Category("Autre", "⚙️", true)
         )
+        
+        /**
+         * Trouve une catégorie par son nom ou retourne "Autre" par défaut
+         */
+        fun fromString(name: String): Category {
+            return DEFAULT_CATEGORIES.find { it.name == name }
+                ?: Category("Autre", "⚙️", true)
+        }
     }
 }

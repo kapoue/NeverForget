@@ -13,9 +13,16 @@ interface TaskDao {
     @Query("SELECT * FROM tasks ORDER BY nextDueDate ASC")
     fun getAllTasks(): Flow<List<TaskEntity>>
     
+    @Query("SELECT * FROM tasks ORDER BY nextDueDate ASC")
+    suspend fun getAllTasksSync(): List<TaskEntity>
+    
     @Transaction
     @Query("SELECT * FROM tasks ORDER BY nextDueDate ASC")
     fun getAllTasksWithHistory(): Flow<List<TaskWithHistory>>
+    
+    @Transaction
+    @Query("SELECT * FROM tasks ORDER BY nextDueDate ASC")
+    suspend fun getAllTasksWithHistorySync(): List<TaskWithHistory>
     
     @Transaction
     @Query("SELECT * FROM tasks WHERE id = :taskId")
@@ -23,6 +30,9 @@ interface TaskDao {
     
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     suspend fun getTaskById(taskId: String): TaskEntity?
+    
+    @Query("SELECT * FROM tasks WHERE name = :taskName")
+    suspend fun getTaskByName(taskName: String): TaskEntity?
     
     @Query("SELECT * FROM tasks WHERE category = :category")
     suspend fun getTasksByCategory(category: String): List<TaskEntity>
@@ -42,9 +52,15 @@ interface TaskDao {
     @Query("DELETE FROM tasks WHERE id = :taskId")
     suspend fun deleteTaskById(taskId: String)
     
+    @Query("DELETE FROM tasks WHERE name = :taskName")
+    suspend fun deleteTaskByName(taskName: String)
+    
     @Query("UPDATE tasks SET category = :newCategory WHERE category = :oldCategory")
     suspend fun updateTasksCategory(oldCategory: String, newCategory: String)
     
     @Query("SELECT COUNT(*) FROM tasks")
     suspend fun getTaskCount(): Int
+    
+    @Query("DELETE FROM tasks")
+    suspend fun deleteAllTasks()
 }

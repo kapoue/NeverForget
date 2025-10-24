@@ -2,6 +2,7 @@ package com.neverforget.data.database
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import kotlinx.datetime.LocalDate
 
@@ -17,7 +18,8 @@ import kotlinx.datetime.LocalDate
             childColumns = ["taskId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index(value = ["taskId"])]
 )
 data class TaskHistoryEntity(
     @PrimaryKey(autoGenerate = true) 

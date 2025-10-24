@@ -24,6 +24,7 @@ NeverForget vous aide à ne jamais oublier les tâches d'entretien importantes m
 - ✅ Tri automatique par urgence
 
 ### Prévues pour V2
+- 🔄 Export/Import JSON complet
 - 🔄 Personnalisation de l'heure des notifications
 - 🔄 Rappels automatiques après X jours
 - 🔄 Fonction Snooze configurable
@@ -43,7 +44,7 @@ NeverForget vous aide à ne jamais oublier les tâches d'entretien importantes m
 
 ## 📱 Captures d'écran
 
-*À venir lors de la Phase 4*
+*Les captures d'écran seront ajoutées lors du déploiement*
 
 ## 🚀 Installation
 
@@ -72,14 +73,25 @@ NeverForget/
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/com/neverforget/
-│   │   │   │   ├── data/          # Room, Repository
-│   │   │   │   ├── ui/            # Screens, ViewModels
-│   │   │   │   ├── workers/       # WorkManager
-│   │   │   │   ├── utils/         # Helpers, Extensions
-│   │   │   │   └── MainActivity.kt
-│   │   │   ├── res/               # Layouts, Drawables, Strings
+│   │   │   │   ├── data/           # Couche de données
+│   │   │   │   │   ├── database/   # Room entities, DAOs
+│   │   │   │   │   ├── model/      # Modèles de domaine
+│   │   │   │   │   └── repository/ # Repository pattern
+│   │   │   │   ├── di/             # Injection de dépendances
+│   │   │   │   ├── domain/         # Use cases
+│   │   │   │   ├── notifications/  # Système de notifications
+│   │   │   │   ├── receivers/      # BroadcastReceivers
+│   │   │   │   ├── ui/             # Interface utilisateur
+│   │   │   │   │   ├── components/ # Composants réutilisables
+│   │   │   │   │   ├── navigation/ # Navigation Compose
+│   │   │   │   │   ├── screens/    # Écrans de l'app
+│   │   │   │   │   ├── theme/      # Thème Material Design
+│   │   │   │   │   └── viewmodel/  # ViewModels
+│   │   │   │   ├── utils/          # Utilitaires
+│   │   │   │   └── workers/        # WorkManager workers
+│   │   │   ├── res/                # Ressources Android
 │   │   │   └── AndroidManifest.xml
-│   │   └── test/
+│   │   └── test/                   # Tests unitaires
 │   └── build.gradle.kts
 ├── gradle/
 ├── README.md
@@ -124,15 +136,15 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 ### Plan de développement
 Le projet suit un plan de développement en 10 phases :
 1. ✅ Structure et Configuration
-2. 🔄 Base de Données et Modèles (Room)
-3. ⏳ Repository et ViewModels (MVVM)
-4. ⏳ Interface Utilisateur (Jetpack Compose)
-5. ⏳ Logique Métier et Récurrence
-6. ⏳ Système de Notifications (WorkManager)
-7. ⏳ Export/Import JSON
-8. ⏳ Gestion des Catégories
-9. ⏳ Tests et Finalisation
-10. ⏳ Documentation et Release
+2. ✅ Base de Données et Modèles (Room)
+3. ✅ Repository et ViewModels (MVVM)
+4. ✅ Interface Utilisateur (Jetpack Compose)
+5. ✅ Logique Métier et Récurrence
+6. ✅ Système de Notifications (WorkManager)
+7. ⏸️ Export/Import JSON (reporté en V2)
+8. ✅ Gestion des Catégories
+9. ✅ Tests et Finalisation
+10. ✅ Documentation et Release
 
 ### Contribution
 Les contributions sont les bienvenues ! N'hésitez pas à :
@@ -147,5 +159,37 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 
 ---
 
-**Version actuelle** : 1.0.0 (en développement)  
+**Version actuelle** : 1.0.0 (MVP complet)
 **Dernière mise à jour** : 23 octobre 2025
+
+## 🧪 Tests
+
+Le projet inclut une suite complète de tests :
+
+### Tests unitaires
+- **Use Cases** : CompleteTaskUseCase, ValidateTaskFormUseCase
+- **Utils** : DateUtils, CategoryHelper
+- **Notifications** : NotificationScheduler
+
+### Commandes de test
+```bash
+# Lancer tous les tests
+./gradlew test
+
+# Tests avec couverture
+./gradlew testDebugUnitTestCoverage
+```
+
+## 🚀 Compilation et déploiement
+
+### APK de debug
+```bash
+./gradlew assembleDebug
+```
+
+### APK de release
+```bash
+./gradlew assembleRelease
+```
+
+L'APK sera généré dans `app/build/outputs/apk/`

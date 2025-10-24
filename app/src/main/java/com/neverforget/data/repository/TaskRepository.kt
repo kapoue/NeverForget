@@ -8,7 +8,7 @@ import com.neverforget.data.model.toEntity
 import com.neverforget.data.model.toTask
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -78,9 +78,16 @@ class TaskRepository @Inject constructor(
     }
     
     /**
+     * Supprime une tâche par son nom
+     */
+    suspend fun deleteTaskByName(taskName: String) {
+        taskDao.deleteTaskByName(taskName)
+    }
+    
+    /**
      * Valide une tâche et calcule la prochaine échéance
      */
-    suspend fun completeTask(taskId: String, completedDate: LocalDate = kotlinx.datetime.Clock.System.todayIn(kotlinx.datetime.TimeZone.currentSystemDefault())) {
+    suspend fun completeTask(taskId: String, completedDate: LocalDate = Clock.System.todayIn(TimeZone.currentSystemDefault())) {
         val task = taskDao.getTaskById(taskId) ?: return
         
         // Ajouter à l'historique
@@ -91,7 +98,7 @@ class TaskRepository @Inject constructor(
         taskHistoryDao.insertHistory(historyEntry)
         
         // Calculer la prochaine échéance
-        val nextDueDate = completedDate.plusDays(task.recurrenceDays.toLong())
+        val nextDueDate = completedDate.plus(task.recurrenceDays, DateTimeUnit.DAY)
         
         // Mettre à jour la tâche
         val updatedTask = task.copy(nextDueDate = nextDueDate)
@@ -119,5 +126,12 @@ class TaskRepository @Inject constructor(
         return taskHistoryDao.getHistoryForTask(taskId).map { historyEntities ->
             historyEntities.map { it.completedDate }.sortedDescending()
         }
+    }
+    
+    /**
+     * Récupère tout l'historique de toutes les tâches
+     */
+    suspend fun getAllTaskHistory(): List<TaskHistoryEntity> {
+        return taskDao.getAllTasksWithHistorySync().flatMap { it.history }
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Dossier cache pour les fichiers temporaires de partage -->
+    <cache-path name="shared_files" path="." />
+    <!-- Dossier files interne pour les exports -->
+    <files-path name="export_files" path="." />
+</paths>
